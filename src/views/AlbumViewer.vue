@@ -27,16 +27,22 @@ export default {
       return this.request.data || []
     }
   },
-  async created () {
-    try {
-      this.loadingData = true
-      const { albumId } = this.$route.params
-      this.request = await this.$axios({ method: 'GET', url: `/photos?albumId=${albumId}` })
-      this.loadingData = false
-    } catch (error) {
-      this.loadingData = false
-      error(error)
+  methods: {
+    async getData () {
+      try {
+        this.loadingData = true
+        const { albumId } = this.$route.params
+        this.request = await this.$axios({ method: 'GET', url: `/photos?albumId=${albumId}` })
+        this.loadingData = false
+        return this.request
+      } catch (err) {
+        this.loadingData = false
+        error(err)
+      }
     }
+  },
+  async created () {
+    await this.getData()
   }
 }
 </script>

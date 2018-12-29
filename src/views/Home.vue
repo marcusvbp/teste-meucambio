@@ -7,7 +7,7 @@
 <script>
 import AlbumsList from '@/components/AlbumsList.vue'
 
-const { error } = console
+const { error, log } = console
 
 export default {
   name: 'home',
@@ -25,15 +25,21 @@ export default {
       return this.request.data || []
     }
   },
-  async created () {
-    try {
+  methods: {
+    async getData() {
+      try {
       this.loadingData = true
       this.request = await this.$axios({ method: 'GET', url: '/albums' })
       this.loadingData = false
-    } catch (error) {
+      return this.request
+    } catch (err) {
       this.loadingData = false
-      error(error)
+      error(err)
     }
+    }
+  },
+  async created () {
+    await this.getData()
   }
 }
 </script>
