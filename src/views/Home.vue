@@ -7,7 +7,7 @@
 <script>
 import AlbumsList from '@/components/AlbumsList.vue'
 
-const { error, log } = console
+const { error } = console
 
 export default {
   name: 'home',

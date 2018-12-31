@@ -16,9 +16,10 @@
                   <v-img
                     :src="image.thumbnailUrl"
                     aspect-ratio="1"
-                    class="grey lighten-2 image"
+                    class="grey lighten-2 image grid-item"
                     :alt="image.title"
                     @click="show(image)"
+                    v-if="image.id"
                   >
                     <v-layout
                       slot="placeholder"
@@ -91,6 +92,10 @@
 export default {
   name: 'ImageGrid',
   props: {
+    testCB: {
+      type: Function,
+      default: () => () => null
+    },
     images: {
       type: Array,
       required: true,
@@ -109,8 +114,9 @@ export default {
   },
   methods: {
     show (image) {
-      this.imageToShow = image
+      this.imageToShow = { ...image }
       this.showModal = true
+      this.testCB(image)
     }
   }
 }
